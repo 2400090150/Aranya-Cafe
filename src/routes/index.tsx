@@ -381,7 +381,7 @@ function Visit() {
             </InfoRow>
           </div>
           <div className="mt-10 flex items-center gap-3">
-            <a href="#" aria-label="Instagram" className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors">
+            <a href="https://instagram.com/rupeshravu" target="_blank" rel="noreferrer" aria-label="Instagram" className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors">
               <Instagram className="h-4 w-4" />
             </a>
             <a href="#" aria-label="Facebook" className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors">
