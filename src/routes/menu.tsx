@@ -68,6 +68,13 @@ const CATEGORIES = [
 ];
 
 function MenuPage() {
+  const [live, setLive] = useState<LiveDish[]>([]);
+  useEffect(() => {
+    supabase.from("dishes").select("id,name,category,description,price,image_url")
+      .eq("available", true).order("position").order("created_at", { ascending: false })
+      .then(({ data }) => { if (data) setLive(data as LiveDish[]); });
+  }, []);
+
   return (
     <PageShell>
       <PageHeader
@@ -75,6 +82,41 @@ function MenuPage() {
         title={<>Small plates. <em className="italic text-accent">Big flavor.</em></>}
         subtitle="A curated menu — comforting Indian classics, careful coffee, and a few quiet surprises. From ₹1, because everyone's welcome."
       />
+
+      {live.length > 0 && (
+        <section className="px-6 pb-16">
+          <div className="max-w-6xl mx-auto">
+            <Reveal>
+              <div className="text-center mb-10">
+                <span className="eyebrow-line text-xs uppercase tracking-[0.25em] text-accent font-medium">Fresh from the kitchen</span>
+                <h2 className="mt-3 font-display text-4xl sm:text-5xl text-primary">Chef's Specials</h2>
+              </div>
+            </Reveal>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {live.map((d) => (
+                <Reveal key={d.id}>
+                  <article className="bg-card border border-border rounded-2xl overflow-hidden shadow-[var(--shadow-warm)] h-full flex flex-col">
+                    {d.image_url && (
+                      <img src={d.image_url} alt={d.name}
+                        className="w-full aspect-[5/4] object-cover" loading="lazy" />
+                    )}
+                    <div className="p-5 flex-1 flex flex-col">
+                      <span className="text-xs uppercase tracking-widest text-accent">{d.category}</span>
+                      <h3 className="mt-1 font-display text-2xl text-primary">{d.name}</h3>
+                      {d.description && <p className="mt-2 text-sm text-muted-foreground flex-1">{d.description}</p>}
+                      {d.price != null && (
+                        <p className="mt-3 font-display text-xl text-accent font-semibold">₹{Number(d.price).toFixed(0)}</p>
+                      )}
+                    </div>
+                  </article>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+
       <section className="px-6 pb-24 space-y-24">
         {CATEGORIES.map((cat, idx) => (
           <div key={cat.name} className="max-w-6xl mx-auto">
