@@ -1,10 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { PageShell, PageHeader } from "@/components/site/SiteChrome";
 import { Reveal } from "@/components/site/Reveal";
+import { supabase } from "@/integrations/supabase/client";
 import menuCoffee from "@/assets/menu-coffee.jpg";
 import menuSnacks from "@/assets/menu-snacks.jpg";
 import menuMain from "@/assets/menu-main.jpg";
 import menuDessert from "@/assets/menu-dessert.jpg";
+
+type LiveDish = {
+  id: string; name: string; category: string;
+  description: string | null; price: number | null; image_url: string | null;
+};
+
 
 export const Route = createFileRoute("/menu")({
   head: () => ({
